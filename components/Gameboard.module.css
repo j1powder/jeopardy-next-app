@@ -1,0 +1,15 @@
+
+.border {
+    margin: .5rem;
+    border-radius: 5px;
+    padding: 1rem;
+    min-height: 100px;
+    width: 100%;
+    background-color: #4169E1;
+    box-shadow: 1px 1px 10px 3px gray;
+    text-align: center;
+} 
+
+.border:hover {
+cursor: pointer;
+}
