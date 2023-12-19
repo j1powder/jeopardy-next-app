@@ -18,7 +18,7 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const collectionRef = await getDocs(collection(projectFirestore,'questions')); // Replace 'yourCollection' with the actual name of your Firestore collection
+        const collectionRef = await getDocs(collection(projectFirestore,'jeopardy-questions')); // Replace 'yourCollection' with the actual name of your Firestore collection
         const snapshot = collectionRef;
 
         const data = snapshot.docs.map((doc) => ({
@@ -34,31 +34,23 @@ const Home = () => {
 
     fetchData();
   }, []);
-  
-console.log(docsData)
-
-  const topics = ['Fall Protection', 'Aerial Lifts', 'First Aid', 'HazCom']
-  
-  
+    
   return ( 
     <div>
     <main > 
       <Container >
         <Row>
           <Col xs={12}>
-          <h3>My New App</h3>
+          <h3 style={{textAlign: "center"}}>This Is Jeopardy</h3>
           <br/>
           <hr/>
 
           
           </Col>
         </Row>
-        <Row>
-        {topics.map((topic)=>{
-            return <Col xs={3} key={topic}><Question Total={topic} /><Gameboard category={topic} questions={docsData && docsData}/></Col>
-          })}
-          
-        </Row>
+
+          <Gameboard questions={docsData && docsData}/>
+
       </Container>
     </main>
 

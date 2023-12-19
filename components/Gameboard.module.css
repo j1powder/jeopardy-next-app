@@ -1,6 +1,6 @@
 
 .border {
-    margin: .5rem;
+    margin: .2rem;
     border-radius: 5px;
     padding: 1rem;
     min-height: 100px;
@@ -8,6 +8,8 @@
     background-color: #4169E1;
     box-shadow: 1px 1px 10px 3px gray;
     text-align: center;
+    
+    
 } 
 
 .border:hover {
