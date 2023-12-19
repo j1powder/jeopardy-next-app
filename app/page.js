@@ -12,6 +12,8 @@ import {useState, useEffect} from 'react'
 import { projectFirestore } from '@/firebaseConfig'
 import {collection, doc, getDocs } from 'firebase/firestore';
 
+import classes from '../components/Gameboard.module.css'
+
 const Home = () => {
   const [show, setShow] = useState(false);
   const [docsData, setDocsData] = useState();
@@ -41,16 +43,17 @@ const Home = () => {
       <Container >
         <Row>
           <Col xs={12}>
-          <h3 style={{textAlign: "center"}}>This Is Jeopardy</h3>
+          <h1 style={{textAlign: "center"}} className={classes.header}>This Is Jeopardy</h1>
           <br/>
           <hr/>
-
+          <h1 style={{textAlign: "center"}} >Todays Categories</h1>
           
           </Col>
         </Row>
 
           <Gameboard questions={docsData && docsData}/>
-
+        <br/>
+        <br/>
       </Container>
     </main>
 

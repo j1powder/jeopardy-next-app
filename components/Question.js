@@ -32,7 +32,7 @@ const Question = (props) => {
                   <b>{data.id}</b>
                   </Card>
                   <Card 
-                  className={classes.border} 
+                  className={classes.biggerFont} 
                   onClick={(e)=> {
                                  console.log(e.target.innerText, data.question1.amount); 
                                  setQuestionContent(data.question1.questionText);
@@ -44,7 +44,7 @@ const Question = (props) => {
                   </Card>
 
                   <Card 
-                    className={classes.border} 
+                    className={classes.biggerFont} 
                     onClick={(e)=> {console.log(e.target.innerText, data.question2.amount); 
                                     setQuestionContent(data.question2.questionText);
                                     setAnswers(data.question2.answers);
@@ -54,7 +54,7 @@ const Question = (props) => {
                   <b>{data.question2.amount}</b>
                   </Card>
                   <Card 
-                      className={classes.border} 
+                      className={classes.biggerFont} 
                       onClick={(e)=> {
                         console.log(e.target.innerText, data.question3.questionText); 
                         setQuestionContent(data.question3.questionText);
@@ -64,7 +64,7 @@ const Question = (props) => {
                         setShow(true);}}>
                   <b>{data.question3.amount}</b>
                   </Card>
-                  <Card className={classes.border} 
+                  <Card className={classes.biggerFont} 
                         onClick={(e)=> {
                           console.log(e.target.innerText, data.question4.questionText); 
                           setQuestionContent(data.question4.questionText);
@@ -80,7 +80,7 @@ const Question = (props) => {
 </Row>
 
 
-<Modal show={show} onHide={()=> setShow(false)} centered size='lg' style={{minHeight: "500px"}} >
+<Modal show={show} onHide={()=> setShow(false)} centered size="lg">
 <Modal.Header closeButton>
   <Modal.Title>{category} for ${total}</Modal.Title>
 </Modal.Header>
@@ -97,7 +97,7 @@ const Question = (props) => {
 </Modal.Footer>
 </Modal>
 
-        </Fragment>
+</Fragment>
 }
 
 export default Question;
