@@ -38,3 +38,15 @@ cursor: pointer;
     text-shadow: 2px 2px 3px black;
     color: blue;
 }
+
+.signincard {
+    padding: 4rem 3rem;
+    background-image:linear-gradient(to bottom,#809ffc, blue);
+    box-shadow: 1px 1px 15px 3px black;
+    
+}
+
+.signincard label{
+    font-weight: bold;
+    color:"white" !important;
+}

@@ -27,7 +27,7 @@ const Question = (props) => {
                   <Card 
                   className={classes.biggerFont} 
                   onClick={(e)=> {
-                                 console.log(e.target.innerText, data.question1.amount); 
+                                  
                                  setQuestionContent(data.question1.questionText);
                                  setAnswers(data.question1.answers);
                                  setCategory(data.id);
@@ -38,7 +38,7 @@ const Question = (props) => {
 
                   <Card 
                     className={classes.biggerFont} 
-                    onClick={(e)=> {console.log(e.target.innerText, data.question2.amount); 
+                    onClick={(e)=> { 
                                     setQuestionContent(data.question2.questionText);
                                     setAnswers(data.question2.answers);
                                     setCategory(data.id);
@@ -49,7 +49,7 @@ const Question = (props) => {
                   <Card 
                       className={classes.biggerFont} 
                       onClick={(e)=> {
-                        console.log(e.target.innerText, data.question3.questionText); 
+                         
                         setQuestionContent(data.question3.questionText);
                         setAnswers(data.question3.answers);
                         setCategory(data.id);
@@ -59,7 +59,7 @@ const Question = (props) => {
                   </Card>
                   <Card className={classes.biggerFont} 
                         onClick={(e)=> {
-                          console.log(e.target.innerText, data.question4.questionText); 
+                           
                           setQuestionContent(data.question4.questionText);
                           setAnswers(data.question4.answers);
                           setCategory(data.id);
