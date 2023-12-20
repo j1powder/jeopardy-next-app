@@ -6,23 +6,16 @@ import Card from 'react-bootstrap/Card'
 import Modal from 'react-bootstrap/Modal'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import { projectFirestore } from '@/firebaseConfig'
-import {doc, getDocs, collection} from 'firebase/firestore' 
+
 
 
 const Question = (props) => {
   const [show, setShow] = useState(false)
-  const [topic, setTopic] = useState();
-  const [money, setMoney] = useState();
-  const [docsData, setDocsData] = useState();
   const [category, setCategory] = useState();
   const [total, setTotal] = useState();
   const [questionContent, setQuestionContent] = useState();
   const [answers, setAnswers] = useState();
 
-
-
-  
 
   return <Fragment>
     <Row>
