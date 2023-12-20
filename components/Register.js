@@ -3,7 +3,7 @@
 
 import { AuthContext } from '@/context/AuthContext';
 import Form from 'react-bootstrap/Form';
-import {Fragment, useContext, useState} from 'react'
+import {Fragment, useContext, useState, useEffect} from 'react'
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import classes from './Gameboard.module.css'
@@ -18,6 +18,12 @@ const Register = () => {
  const [password, setPassword] = useState('');
  const {currentUser, signUp } = useContext(AuthContext);
  const router = useRouter();
+
+ useEffect(()=>{
+  !currentUser ? router.push('/register')
+  : router.push('/gameboard')
+},[]);
+
 
  const handleRegister = async (e) => {
     e.preventDefault();
@@ -49,7 +55,7 @@ const Register = () => {
                         <Form.Label >Password</Form.Label>
                         <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)}  />
                         <br/>
-                        <Button variant="light" type="submit">Sign In</Button>
+                        <Button variant="light" type="submit">Register</Button>
                     </Form.Group>
                 </Form>
                 <br/>

@@ -3,7 +3,7 @@
 
 import { AuthContext } from '@/context/AuthContext';
 import Form from 'react-bootstrap/Form';
-import {Fragment, useContext, useState} from 'react'
+import {Fragment, useContext, useState, useEffect} from 'react'
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import classes from './Gameboard.module.css'
@@ -18,6 +18,11 @@ const SignIn = () => {
  const [password, setPassword] = useState('');
  const {currentUser, signIn } = useContext(AuthContext);
  const router = useRouter();
+
+ useEffect(()=>{
+  !currentUser ? router.push('/')
+  : router.push('/gameboard')
+},[])
 
  const handleLogin = async (e) => {
     e.preventDefault();
