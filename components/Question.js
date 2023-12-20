@@ -6,15 +6,35 @@ import Card from 'react-bootstrap/Card'
 import Modal from 'react-bootstrap/Modal'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+import Button from 'react-bootstrap/Button'
+import { projectFirestore } from '@/firebaseConfig'
+import {doc, updateDoc} from 'firebase/firestore'
+import Form from 'react-bootstrap/Form'
 
 
 
 const Question = (props) => {
   const [show, setShow] = useState(false)
-  const [category, setCategory] = useState();
-  const [total, setTotal] = useState();
-  const [questionContent, setQuestionContent] = useState();
-  const [answers, setAnswers] = useState();
+  const [category, setCategory] = useState('');
+  const [total, setTotal] = useState('');
+  const [questionContent, setQuestionContent] = useState('');
+  const [answers, setAnswers] = useState('');
+  const [selectedAnswer, setSelectedAnswer] = useState('');
+  const [questionId, setQuestionId] = useState('')
+
+ console.log(selectedAnswer)
+
+const submitAnswerHandler = async () => {
+  try{
+const ref = doc(projectFirestore, 'jeopardy-questions', `${questionId}`);
+await updateDoc(ref,{
+  selectedAnswer: selectedAnswer
+})
+  }catch(err){
+    console.log(err, "something went wrong")
+  }
+
+}
 
 
   return <Fragment>
@@ -27,7 +47,8 @@ const Question = (props) => {
                   <Card 
                   className={classes.biggerFont} 
                   onClick={(e)=> {
-                                  
+                                console.log(data)
+                                 setQuestionId(data.id) 
                                  setQuestionContent(data.question1.questionText);
                                  setAnswers(data.question1.answers);
                                  setCategory(data.id);
@@ -82,8 +103,13 @@ const Question = (props) => {
     <br/>
     <br/>
     {answers && answers.map((answer)=>{
-      return <div key={answer}><input type="radio" style={{margin:".3rem"}}></input><label>{answer}</label></div>
+      return <div key={answer}>
+        <Form.Check type="radio" style={{margin:".3rem"}} name="question" label={"What is: " + answer} onChange={(e)=>setSelectedAnswer(answer)}></Form.Check>   {/* <label>What is: {answer}</label> */}
+        </div>
+
     })}
+    <br/>
+    <Button variant="light" onClick={submitAnswerHandler}>Submit Answer</Button>
 </Modal.Body>
 <Modal.Footer>
 
