@@ -37,7 +37,8 @@ const submitAnswerHandler = async (e) => {
         
       },{merge: true}) 
       console.log('successfully updated document');
-      setShow(false)
+      setShow(false);
+      
       router.refresh();
         }catch(err){
           console.log(err, "something went wrong")
@@ -50,6 +51,8 @@ const submitAnswerHandler = async (e) => {
         
       },{merge: true}) 
       console.log('successfully updated document');
+      setShow(false);
+      router.refresh();
         }catch(err){
           console.log(err, "something went wrong")
         }
@@ -61,6 +64,8 @@ const submitAnswerHandler = async (e) => {
         
       },{merge: true}) 
       console.log('successfully updated document');
+      setShow(false);
+      router.refresh();
         }catch(err){
           console.log(err, "something went wrong")
         }
@@ -72,6 +77,8 @@ const submitAnswerHandler = async (e) => {
         
       },{merge: true}) 
       console.log('successfully updated document');
+      setShow(false);
+      router.refresh();
         }catch(err){
           console.log(err, "something went wrong")
         }
@@ -89,48 +96,52 @@ const submitAnswerHandler = async (e) => {
                   <b>{data.id}</b>
                   </Card>
                   <Card 
-                  className={data.question1.selectedAnswer === null ? classes.biggerFont : classes.done} 
-                  onClick={(e)=> {
+                  className={data.question1.selectedAnswer === null ? classes.biggerFont : classes.done}
+                  disabled={data.question1.selectedAnswer === null ? false : true} 
+                  onClick={data.question1.selectedAnswer === null ? (e)=> {
                                 console.log(data)
                                  setQuestionId(data.id) 
                                  setQuestionContent(data.question1.questionText);
                                  setAnswers(data.question1.answers);
                                  setCategory(data.id);
                                  setTotal(data.question1.amount);
-                                 setShow(true);}}>
+                                 setShow(true); } : ()=>console.log('Already Answered This')}>
                   <b>{data.question1.amount}</b>
                   </Card>
 
                   <Card 
-                    className={classes.biggerFont} 
-                    onClick={(e)=> { 
+                    className={data.question2.selectedAnswer === null ? classes.biggerFont : classes.done}
+                    disabled={data.question2.selectedAnswer === null ? false : true} 
+                    onClick={data.question2.selectedAnswer === null ? (e)=> { 
                                     setQuestionId(data.id)
                                     setQuestionContent(data.question2.questionText);
                                     setAnswers(data.question2.answers);
                                     setCategory(data.id);
                                     setTotal(data.question2.amount);
-                                    setShow(true);}}>
+                                    setShow(true);} : ()=>console.log('Already Answered This') }>
                   <b>{data.question2.amount}</b>
                   </Card>
                   <Card 
-                      className={classes.biggerFont} 
-                      onClick={(e)=> {
+                      className={data.question3.selectedAnswer === null ? classes.biggerFont : classes.done} 
+                      disabled={data.question3.selectedAnswer === null ? false : true} 
+                      onClick={data.question3.selectedAnswer === null ? (e)=> {
                         setQuestionId(data.id) 
                         setQuestionContent(data.question3.questionText);
                         setAnswers(data.question3.answers);
                         setCategory(data.id);
                         setTotal(data.question3.amount);
-                        setShow(true);}}>
+                        setShow(true);} : ()=>console.log('Already Answered This')}>
                   <b>{data.question3.amount}</b>
                   </Card>
-                  <Card className={classes.biggerFont} 
-                        onClick={(e)=> {
+                  <Card className={data.question4.selectedAnswer === null ? classes.biggerFont : classes.done} 
+                        disabled={data.question4.selectedAnswer === null ? false : true}
+                        onClick={data.question4.selectedAnswer === null ? (e)=> {
                           setQuestionId(data.id)
                           setQuestionContent(data.question4.questionText);
                           setAnswers(data.question4.answers);
                           setCategory(data.id);
                           setTotal(data.question4.amount);
-                          setShow(true)}}>
+                          setShow(true)}: ()=>console.log('Already Answered This')}>
                   <b>{data.question4.amount}</b>
                   </Card>
               </Col>
@@ -144,6 +155,7 @@ const submitAnswerHandler = async (e) => {
   <Modal.Title>{category} for ${total}</Modal.Title>
 </Modal.Header>
 <Modal.Body style={{backgroundColor:"skyblue"}}>
+  
     {questionContent}
     <br/>
     <br/>

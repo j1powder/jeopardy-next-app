@@ -33,9 +33,10 @@ const clearAllDataHandler = async () => {
   try{
     await setDoc(ref1,{question1: {selectedAnswer:null}, question2: {selectedAnswer:null}, question3: {selectedAnswer: null}, question4: {selectedAnswer: null}}, {merge: true});
     await setDoc(ref2,{question1: {selectedAnswer:null}, question2: {selectedAnswer:null}, question3: {selectedAnswer: null}, question4: {selectedAnswer: null}}, {merge: true});
-    await setDoc(ref3,{question1: {selectedAnswer:null}, question3: {selectedAnswer:null}, question3: {selectedAnswer: null}, question4: {selectedAnswer: null}}, {merge: true});
-    await setDoc(ref4,{question1: {selectedAnswer:null}, question4: {selectedAnswer:null}, question3: {selectedAnswer: null}, question4: {selectedAnswer: null}}, {merge: true});
+    await setDoc(ref3,{question1: {selectedAnswer:null}, question2: {selectedAnswer:null}, question3: {selectedAnswer: null}, question4: {selectedAnswer: null}}, {merge: true});
+    await setDoc(ref4,{question1: {selectedAnswer:null}, question2: {selectedAnswer:null}, question3: {selectedAnswer: null}, question4: {selectedAnswer: null}}, {merge: true});
     console.log('updated doc successfully');
+    router.refresh();
   }catch(err){
     console.log(err, "something went wrong");
   }
