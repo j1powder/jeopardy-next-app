@@ -5,7 +5,8 @@ const GameboardPage = async () => {
 
 const questions = await getQuestions();
 
-console.log(questions)
+console.log(questions);
+
 
     
   return <div>

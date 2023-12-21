@@ -28,7 +28,7 @@ const Register = () => {
  const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const user = await signUp(displayName, email, password);
+      const user = await signUp(displayName, email, password);  
       console.log('created user:', currentUser);
       // Redirect or handle successful login
       router.push('/gameboard')
