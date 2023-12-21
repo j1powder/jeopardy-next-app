@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
 import { projectFirestore } from '@/firebaseConfig'
-import {doc, updateDoc} from 'firebase/firestore'
+import {doc, updateDoc, setDoc} from 'firebase/firestore'
 import Form from 'react-bootstrap/Form'
 
 
@@ -25,14 +25,18 @@ const Question = (props) => {
  console.log(selectedAnswer)
 
 const submitAnswerHandler = async () => {
-  try{
-const ref = doc(projectFirestore, 'jeopardy-questions', `${questionId}`);
-await updateDoc(ref,{
-  selectedAnswer: selectedAnswer
-})
-  }catch(err){
-    console.log(err, "something went wrong")
+  if(total === 200){
+    try{
+      const ref = doc(projectFirestore, 'jeopardy-questions', `${questionId}`);
+      await setDoc(ref,{ question1: {selectedAnswer: selectedAnswer}
+        
+      },{merge: true})
+      console.log('successfully updated document');
+        }catch(err){
+          console.log(err, "something went wrong")
+        }
   }
+
 
 }
 
