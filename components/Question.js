@@ -26,10 +26,12 @@ const Question = (props) => {
   const [questionId, setQuestionId] = useState('')
   const [showScore, setShowScore] = useState(false);
   const [myData, setMyData] = useState();
+  const [score, setScore] = useState();
   const router = useRouter();
   const tune = useRef()
 
-/* useEffect(()=>{
+ 
+useEffect(()=>{
   let results=[];
   const fetchData = async () => {
   const querySnapshot = await getDocs(collection(projectFirestore, "jeopardy-questions"));
@@ -41,7 +43,7 @@ const Question = (props) => {
   setMyData(results);
 }
 fetchData()
-  },[])  */
+  },[show, props.functionRan])  
  
  
 const submitAnswerHandler = async (e) => {
@@ -113,42 +115,45 @@ tune.current.load()
 tune.current.play()
 }
 
-let row1 = props.docsData.map((answer)=>{
-  if(answer.question1.isCorrect === answer.question1.selectedAnswer){
-    return true
-  } else {
-    return false
+
+const finalScoreHandler = () => {
+  if(myData){
+    let row1 = myData.map((answer)=>{
+      if(answer.question1.isCorrect === answer.question1.selectedAnswer){
+        return true
+      } else {
+        return false
+      }
+    })
+    let row2 = myData.map((answer)=>{
+      if(answer.question2.isCorrect === answer.question2.selectedAnswer){
+        return true
+      } else {
+        return false
+      }
+    })
+    let row3 = myData.map((answer)=>{
+      if(answer.question3.isCorrect === answer.question3.selectedAnswer){
+        return true
+      } else {
+        return false
+      }
+    })
+    let row4 = myData.map((answer)=>{
+      if(answer.question4.isCorrect === answer.question4.selectedAnswer){
+        return true
+      } else {
+        return false
+      }
+    })
+  let totalAnswers = row1.concat(row2,row3,row4);
+  let totalCorrect = totalAnswers.filter((answer)=> answer === true)
+  let finalScore = (totalCorrect.length / totalAnswers.length) * 100
+
+  setScore(finalScore);
   }
-})
-
-let row2 = props.docsData.map((answer)=>{
-  if(answer.question2.isCorrect === answer.question2.selectedAnswer){
-    return true
-  } else {
-    return false
-  }
-})
-
-let row3 = props.docsData.map((answer)=>{
-  if(answer.question3.isCorrect === answer.question3.selectedAnswer){
-    return true
-  } else {
-    return false
-  }
-})
-
-let row4 = props.docsData.map((answer)=>{
-  if(answer.question4.isCorrect === answer.question4.selectedAnswer){
-    return true
-  } else {
-    return false
-  }
-})
-
-
-let totalAnswers = row1.concat(row2,row3,row4);
-let totalCorrect = totalAnswers.filter((answer)=> answer === true)
-let finalScore = (totalCorrect.length / totalAnswers.length) * 100
+  setShowScore(true);
+}
 
 
 
@@ -159,8 +164,8 @@ let finalScore = (totalCorrect.length / totalAnswers.length) * 100
   <source src="/jeopardytune.mp3"  />
 </audio> 
 
-    {props.docsData && props.docsData.map((data)=>{
-      console.log(data)
+    {myData && myData.map((data)=>{
+      
       return  <Col sm={3} key={Math.random()}>
 
                   <Card className={classes.border}  >
@@ -251,10 +256,10 @@ let finalScore = (totalCorrect.length / totalAnswers.length) * 100
 </Modal.Footer>
 </Modal>
 <br/>
-<Button onClick={()=>setShowScore(true)}  style={{margin: "auto", display: 'block'}}>See How You Did</Button>
+<Button onClick={finalScoreHandler}  style={{margin: "auto", display: 'block'}}>See How You Did</Button>
 <p>note: this will not reflect an accurate score until all questions are answered</p>
 <br/>
-{showScore && <h3 style={{textAlign: "center"}}> You did Amazing!! <br/>{finalScore.toFixed(2)}%</h3>}
+{showScore && <h3 style={{textAlign: "center"}}> You did Amazing!! <br/>{score.toFixed(2)}%</h3>}
 
 </Fragment>
 }

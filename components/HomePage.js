@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Gameboard from '@/components/Gameboard'
-import {useContext} from 'react';
+import {useContext, useState} from 'react';
 import { AuthContext } from '@/context/AuthContext'
 import {useRouter} from 'next/navigation'
 import { projectFirestore } from '@/firebaseConfig'
@@ -17,6 +17,7 @@ import classes from '../components/Gameboard.module.css'
 
 const HomePage = (props) => {
 const {currentUser, signOutUser} = useContext(AuthContext);
+const [functionRan, setFunctionRan] = useState(false);
 const router = useRouter();
 
 const signOutHandler = () =>{
@@ -36,6 +37,11 @@ const clearAllDataHandler = async () => {
     await setDoc(ref3,{question1: {selectedAnswer:null}, question2: {selectedAnswer:null}, question3: {selectedAnswer: null}, question4: {selectedAnswer: null}}, {merge: true});
     await setDoc(ref4,{question1: {selectedAnswer:null}, question2: {selectedAnswer:null}, question3: {selectedAnswer: null}, question4: {selectedAnswer: null}}, {merge: true});
     console.log('updated doc successfully');
+    if(functionRan === false){
+      setFunctionRan(true)
+    } else {
+      setFunctionRan(false);
+    }
     router.refresh();
   }catch(err){
     console.log(err, "something went wrong");
@@ -59,7 +65,7 @@ const clearAllDataHandler = async () => {
           </Col>
         </Row>
 
-          <Gameboard questions={props.questions && props.questions}/>
+          <Gameboard questions={props.questions && props.questions} functionRan={functionRan}/>
         <br/>
         <br/>
       </Container>

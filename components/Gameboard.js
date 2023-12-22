@@ -17,7 +17,7 @@ useEffect(()=>{
 },[])
   
   return <Fragment>
-    <Question docsData={props.questions} />
+    <Question docsData={props.questions} functionRan={props.functionRan} />
   </Fragment>
 }
 
