@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Button from 'react-bootstrap/Button'
 import { projectFirestore } from '@/firebaseConfig'
-import {doc, updateDoc, setDoc} from 'firebase/firestore'
+import {doc, updateDoc, setDoc, getDocs, collection} from 'firebase/firestore'
 import Form from 'react-bootstrap/Form'
 import { useRouter } from 'next/navigation'
 import ReactAudioPlayer from 'react-audio-player'
@@ -24,12 +24,26 @@ const Question = (props) => {
   const [answers, setAnswers] = useState('');
   const [selectedAnswer, setSelectedAnswer] = useState('');
   const [questionId, setQuestionId] = useState('')
-  const [showScore, setShowScore] = useState(false)
+  const [showScore, setShowScore] = useState(false);
+  const [myData, setMyData] = useState();
   const router = useRouter();
   const tune = useRef()
 
-
-
+/* useEffect(()=>{
+  let results=[];
+  const fetchData = async () => {
+  const querySnapshot = await getDocs(collection(projectFirestore, "jeopardy-questions"));
+  querySnapshot.docs.map((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    results.push({id: doc.id, ...doc.data()});
+  });
+ 
+  setMyData(results);
+}
+fetchData()
+  },[])  */
+ 
+ 
 const submitAnswerHandler = async (e) => {
   tune.current.pause();
   setShowScore(false)
@@ -146,6 +160,7 @@ let finalScore = (totalCorrect.length / totalAnswers.length) * 100
 </audio> 
 
     {props.docsData && props.docsData.map((data)=>{
+      console.log(data)
       return  <Col sm={3} key={Math.random()}>
 
                   <Card className={classes.border}  >
