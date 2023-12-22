@@ -1,6 +1,6 @@
 'use client'
 
-import React,{Fragment, useEffect, useState} from 'react'
+import React,{Fragment, useEffect, useState, useRef} from 'react'
 import classes from './Gameboard.module.css'
 import Card from 'react-bootstrap/Card'
 import Modal from 'react-bootstrap/Modal'
@@ -11,6 +11,7 @@ import { projectFirestore } from '@/firebaseConfig'
 import {doc, updateDoc, setDoc} from 'firebase/firestore'
 import Form from 'react-bootstrap/Form'
 import { useRouter } from 'next/navigation'
+import ReactAudioPlayer from 'react-audio-player'
 
 
 
@@ -23,16 +24,21 @@ const Question = (props) => {
   const [answers, setAnswers] = useState('');
   const [selectedAnswer, setSelectedAnswer] = useState('');
   const [questionId, setQuestionId] = useState('')
+  const [showScore, setShowScore] = useState(false)
   const router = useRouter();
+  const tune = useRef()
 
- console.log(selectedAnswer, questionId)
+
 
 const submitAnswerHandler = async (e) => {
+  tune.current.pause();
+  setShowScore(false)
   e.preventDefault()
   const ref = doc(projectFirestore, 'jeopardy-questions', `${questionId}`);
+  
   if(total === 200){
     try{
-      console.log(questionId)
+      
        await setDoc(ref,{ question1: {selectedAnswer: selectedAnswer}
         
       },{merge: true}) 
@@ -46,7 +52,7 @@ const submitAnswerHandler = async (e) => {
   }
   if(total === 400){
     try{
-      console.log(questionId)
+      
        await setDoc(ref,{ question2: {selectedAnswer: selectedAnswer}
         
       },{merge: true}) 
@@ -59,7 +65,7 @@ const submitAnswerHandler = async (e) => {
   }
   if(total === 600){
     try{
-      console.log(questionId)
+      
        await setDoc(ref,{ question3: {selectedAnswer: selectedAnswer}
         
       },{merge: true}) 
@@ -72,7 +78,7 @@ const submitAnswerHandler = async (e) => {
   }
   if(total === 800){
     try{
-      console.log(questionId)
+      
        await setDoc(ref,{ question4: {selectedAnswer: selectedAnswer}
         
       },{merge: true}) 
@@ -88,24 +94,76 @@ const submitAnswerHandler = async (e) => {
 }
 
 
+function playMusic(){
+tune.current.load()
+tune.current.play()
+}
+
+let row1 = props.docsData.map((answer)=>{
+  if(answer.question1.isCorrect === answer.question1.selectedAnswer){
+    return true
+  } else {
+    return false
+  }
+})
+
+let row2 = props.docsData.map((answer)=>{
+  if(answer.question2.isCorrect === answer.question2.selectedAnswer){
+    return true
+  } else {
+    return false
+  }
+})
+
+let row3 = props.docsData.map((answer)=>{
+  if(answer.question3.isCorrect === answer.question3.selectedAnswer){
+    return true
+  } else {
+    return false
+  }
+})
+
+let row4 = props.docsData.map((answer)=>{
+  if(answer.question4.isCorrect === answer.question4.selectedAnswer){
+    return true
+  } else {
+    return false
+  }
+})
+
+
+let totalAnswers = row1.concat(row2,row3,row4);
+let totalCorrect = totalAnswers.filter((answer)=> answer === true)
+let finalScore = (totalCorrect.length / totalAnswers.length) * 100
+
+
+
   return <Fragment>
     <Row>
+    
+ <audio id="music" ref={tune}>
+  <source src="/jeopardytune.mp3"  />
+</audio> 
+
     {props.docsData && props.docsData.map((data)=>{
       return  <Col sm={3} key={Math.random()}>
-                  <Card className={classes.border} >
+
+                  <Card className={classes.border}  >
                   <b>{data.id}</b>
                   </Card>
                   <Card 
                   className={data.question1.selectedAnswer === null ? classes.biggerFont : classes.done}
                   disabled={data.question1.selectedAnswer === null ? false : true} 
                   onClick={data.question1.selectedAnswer === null ? (e)=> {
-                                console.log(data)
+                                 
+                                 playMusic()
                                  setQuestionId(data.id) 
                                  setQuestionContent(data.question1.questionText);
                                  setAnswers(data.question1.answers);
                                  setCategory(data.id);
                                  setTotal(data.question1.amount);
-                                 setShow(true); } : ()=>console.log('Already Answered This')}>
+                                 setShow(true);
+                                 } : ()=>console.log('Already Answered This')}>
                   <b>{data.question1.amount}</b>
                   </Card>
 
@@ -113,6 +171,7 @@ const submitAnswerHandler = async (e) => {
                     className={data.question2.selectedAnswer === null ? classes.biggerFont : classes.done}
                     disabled={data.question2.selectedAnswer === null ? false : true} 
                     onClick={data.question2.selectedAnswer === null ? (e)=> { 
+                                    playMusic();
                                     setQuestionId(data.id)
                                     setQuestionContent(data.question2.questionText);
                                     setAnswers(data.question2.answers);
@@ -125,6 +184,7 @@ const submitAnswerHandler = async (e) => {
                       className={data.question3.selectedAnswer === null ? classes.biggerFont : classes.done} 
                       disabled={data.question3.selectedAnswer === null ? false : true} 
                       onClick={data.question3.selectedAnswer === null ? (e)=> {
+                        playMusic();
                         setQuestionId(data.id) 
                         setQuestionContent(data.question3.questionText);
                         setAnswers(data.question3.answers);
@@ -136,6 +196,7 @@ const submitAnswerHandler = async (e) => {
                   <Card className={data.question4.selectedAnswer === null ? classes.biggerFont : classes.done} 
                         disabled={data.question4.selectedAnswer === null ? false : true}
                         onClick={data.question4.selectedAnswer === null ? (e)=> {
+                          playMusic();
                           setQuestionId(data.id)
                           setQuestionContent(data.question4.questionText);
                           setAnswers(data.question4.answers);
@@ -150,7 +211,7 @@ const submitAnswerHandler = async (e) => {
 </Row>
 
 
-<Modal show={show} onHide={()=> setShow(false)} centered size="lg">
+<Modal show={show} onHide={()=> {setShow(false); tune.current.pause(); setShowScore(false)}} centered size="lg">
 <Modal.Header closeButton>
   <Modal.Title>{category} for ${total}</Modal.Title>
 </Modal.Header>
@@ -174,6 +235,11 @@ const submitAnswerHandler = async (e) => {
 
 </Modal.Footer>
 </Modal>
+<br/>
+<Button onClick={()=>setShowScore(true)}  style={{margin: "auto", display: 'block'}}>See How You Did</Button>
+<p>note: this will not reflect an accurate score until all questions are answered</p>
+<br/>
+{showScore && <h3 style={{textAlign: "center"}}> You did Amazing!! <br/>{finalScore.toFixed(2)}%</h3>}
 
 </Fragment>
 }
