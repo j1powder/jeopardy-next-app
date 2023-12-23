@@ -20,10 +20,10 @@ const {currentUser, signOutUser} = useContext(AuthContext);
 const [functionRan, setFunctionRan] = useState(false);
 const router = useRouter();
 
-const signOutHandler = () =>{
-  router.push('/');
-  signOutUser();
-  
+const signOutHandler = async () =>{
+  await clearAllDataHandler();
+    router.push('/');
+    signOutUser();  
 }
 
 const clearAllDataHandler = async () => {
